@@ -42,7 +42,6 @@ const handler = async (req, res) => {
   console.log('PUB', PUBLIC_KEY);
   console.log('CONNECTIONS', connections); 
   console.log('REQ.BODY', req.body);
-  console.log('CONTRACT', contract);
   
   // Loops through the Values which are times
   let found = '';
