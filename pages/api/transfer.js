@@ -14,6 +14,8 @@ const tokenAddress = process.env.TOKEN_ADDRESS;
 const Contract = new web3.eth.Contract(contract.abi, tokenAddress, { from: PUBLIC_KEY });
 
 const TransferToken = async (addr1, addr2) => {
+  console.log(PUBLIC_KEY);
+  console.log(addr1, addr2);
   const data = await Contract.methods.multiTransfer([addr1, addr2], [100000000, 100000000]).encodeABI();
   const tx = {
     "gas": 500000,
@@ -23,7 +25,10 @@ const TransferToken = async (addr1, addr2) => {
     "from": PUBLIC_KEY
   };
   await web3.eth.accounts.signTransaction(tx, PRIVATE_KEY, async (err, signedTx) => {
-    if (err) return err
+    if (err) {
+      console.log(err);
+      return err;
+    }
     console.log(signedTx)
     await web3.eth.sendSignedTransaction(signedTx.rawTransaction, (err, res) => {
       if (err) return console.log(err)
