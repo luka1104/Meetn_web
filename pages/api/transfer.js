@@ -43,6 +43,7 @@ const addConnection = async (address, timestamp) => {
 };
 
 const TransferToken = async (addr1, addr2) => {
+  console.log('TRANSFERING TO', addr1,'AND', addr2);
   const data = await Contract.methods.multiTransfer([addr1, addr2], [100000000, 100000000]).encodeABI();
   const tx = {
     "gas": 500000,
@@ -52,11 +53,11 @@ const TransferToken = async (addr1, addr2) => {
     "from": PUBLIC_KEY
   };
   await web3.eth.accounts.signTransaction(tx, PRIVATE_KEY, async (err, signedTx) => {
-    if (err) return err;
-    console.log(signedTx)
+    if (err) return console.log('TRANS ERROR', err);
+    console.log('SIGNING', signedTx)
     await web3.eth.sendSignedTransaction(signedTx.rawTransaction, (err, res) => {
-      if (err) return console.log(err)
-      console.log(res)
+      if (err) return console.log('TRANSFER ERROR', err)
+      console.log('SENDING', res)
     });
   });
 };
