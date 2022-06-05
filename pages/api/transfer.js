@@ -39,6 +39,7 @@ const TransferToken = async (addr1, addr2) => {
 
 const handler = async (req, res) => {
   const now = Date.now();
+  console.log('REQ.BODY', req.body);
   
   // Loops through the Values which are times
   let found = '';
@@ -47,14 +48,17 @@ const handler = async (req, res) => {
     if (t > now - 20000) { // if connection time is within last 20 seconds
       // We found the connection
       found = a;
+      console.log('found', found);
       delete connections[a]; 
       break;
     }
   }
 
   if (found) {
+    console.log('transfering');
     await TransferToken(found, req.body)
   } else {
+    console.log('adding');
     connections[req.body] = now;
     // res.status(200).send("success");
   }
