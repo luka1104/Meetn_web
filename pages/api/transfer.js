@@ -13,7 +13,7 @@ const contract = require('../../src/contracts/BeanToken.json');
 const tokenAddress = process.env.TOKEN_ADDRESS;
 const Contract = new web3.eth.Contract(contract.abi, tokenAddress, { from: PUBLIC_KEY });
 
-const handler = (req, res) => {
+const handler = async (req, res) => {
   const now = Date.now();
   
   // Loops through the Values which are times
