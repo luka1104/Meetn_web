@@ -42,7 +42,7 @@ const addConnection = async (address, timestamp) => {
   });
 };
 
-const TransferToken = async (addr1, addr2) => {
+const TransferToken = async (res, addr1, addr2) => {
   console.log('TRANSFERING TO', addr1,'AND', addr2);
   const data = await Contract.methods.multiTransfer([addr1, addr2], [100000000, 100000000]).encodeABI();
   const tx = {
@@ -55,9 +55,10 @@ const TransferToken = async (addr1, addr2) => {
   await web3.eth.accounts.signTransaction(tx, PRIVATE_KEY, async (err, signedTx) => {
     if (err) return console.log('TRANS ERROR', err);
     console.log('SIGNING', signedTx)
-    await web3.eth.sendSignedTransaction(signedTx.rawTransaction, (err, res) => {
+    await web3.eth.sendSignedTransaction(signedTx.rawTransaction, (err, resp) => {
       if (err) return console.log('TRANSFER ERROR', err)
-      console.log('SENDING', res)
+      console.log('SENDING', resp)
+      res.status(200).send("success transfer");
     });
   });
 };
@@ -82,11 +83,11 @@ const handler = async (req, res) => {
 
   if (found) {
     console.log('Transfering');
-    await TransferToken(found, req.body)
+    await TransferToken(res, found, req.body)
   } else {
     console.log('Adding');
     connections[req.body] = now;
+    res.status(200).send("success adding");
   }
-  res.status(200).send("success");
 };
 export default handler;
