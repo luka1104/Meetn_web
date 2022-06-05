@@ -1,4 +1,5 @@
-import { createAlchemyWeb3 } from '@alch/alchemy-web3';
+// import { createAlchemyWeb3 } from '@alch/alchemy-web3';
+import Web3 from 'web3'
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, doc, getDocs, setDoc } from "firebase/firestore/lite";
 
@@ -16,15 +17,17 @@ const db = getFirestore(app);
 
 // const connections = {"0x50B80aa3877fC852f3194a0331177FDDcF0891bf": Date.now()};
 
-const API_KEY = process.env.API_KEY;
+// const API_KEY = process.env.API_KEY;
+const API_URL = process.env.API_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const PUBLIC_KEY = process.env.PUBLIC_KEY;
-const web3 = createAlchemyWeb3(
-  `https://polygon-mumbai.g.alchemy.com/v2/${API_KEY}`
-);
+// const web3 = createAlchemyWeb3(
+//   `https://polygon-mumbai.g.alchemy.com/v2/${API_KEY}`
+// );
+const provider = new Web3(new Web3.providers.HttpProvider(API_URL));
 const contract = require('../../src/contracts/BeanToken.json');
 const tokenAddress = process.env.TOKEN_ADDRESS;
-const Contract = new web3.eth.Contract(contract.abi, tokenAddress, { from: PUBLIC_KEY });
+const Contract = new provider.eth.Contract(contract.abi, tokenAddress, { from: PUBLIC_KEY });
 
 const getConnections = async (db) => {
   const conCol = collection(db, 'connections');
@@ -52,10 +55,10 @@ const TransferToken = async (res, addr1, addr2) => {
     "data": data,
     "from": PUBLIC_KEY
   };
-  await web3.eth.accounts.signTransaction(tx, PRIVATE_KEY, async (err, signedTx) => {
+  await provider.eth.accounts.signTransaction(tx, PRIVATE_KEY, async (err, signedTx) => {
     if (err) return console.log('TRANS ERROR', err);
     console.log('SIGNING', signedTx)
-    await web3.eth.sendSignedTransaction(signedTx.rawTransaction, (err, resp) => {
+    await provider.eth.sendSignedTransaction(signedTx.rawTransaction, (err, resp) => {
       if (err) return console.log('TRANSFER ERROR', err)
       console.log('SENDING', resp)
       res.status(200).send("success transfer");

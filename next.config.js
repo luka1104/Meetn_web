@@ -5,6 +5,7 @@ module.exports = {
     API_KEY: process.env.API_KEY,
     PRIVATE_KEY: process.env.PRIVATE_KEY,
     PUBLIC_KEY: process.env.PUBLIC_KEY,
-    TOKEN_ADDRESS: process.env.TOKEN_ADDRESS
+    TOKEN_ADDRESS: process.env.TOKEN_ADDRESS,
+    API_URL: process.env.API_URL
   },
 }

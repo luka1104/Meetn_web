@@ -18,7 +18,7 @@ export default function CallToActionWithAnnotation() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify("0x3f7E10eD4eac8c4a9c54ffbcD632215Aa78D598E"),
+      body: JSON.stringify("0x50B80aa3877fC852f3194a0331177FDDcF0891bf"),
     });
   }
   return (
