@@ -1,7 +1,7 @@
 // import { NextApiRequest, NextApiResponse } from 'next';
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 
-const connections = {};
+const connections = {"0x50B80aa3877fC852f3194a0331177FDDcF0891bf": Date.now()};
 
 const API_KEY = process.env.API_KEY;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
