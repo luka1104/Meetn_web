@@ -54,7 +54,7 @@ const handler = (req, res) => {
     });
   }
   if (found) {
-    TransferToken()
+    await TransferToken()
   } else {
     connections[req.body] = now;
   }
