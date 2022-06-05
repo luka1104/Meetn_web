@@ -22,10 +22,10 @@ const TransferToken = async (addr1, addr2) => {
     "data": data,
     "from": PUBLIC_KEY
   };
-  web3.eth.accounts.signTransaction(tx, PRIVATE_KEY, (err, signedTx) => {
+  await web3.eth.accounts.signTransaction(tx, PRIVATE_KEY, async (err, signedTx) => {
     if (err) return err
     console.log(signedTx)
-    web3.eth.sendSignedTransaction(signedTx.rawTransaction, (err, res) => {
+    await web3.eth.sendSignedTransaction(signedTx.rawTransaction, (err, res) => {
       if (err) return console.log(err)
       console.log(res)
     });
@@ -51,7 +51,7 @@ const handler = async (req, res) => {
     await TransferToken(found, req.body)
   } else {
     connections[req.body] = now;
+    // res.status(200).send("success");
   }
-  res.status(200).send("success");
 };
 export default handler;
