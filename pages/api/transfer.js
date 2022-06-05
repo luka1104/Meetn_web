@@ -72,17 +72,18 @@ const handler = async (req, res) => {
   let found = '';
   for (const [a, t] of Object.entries(connections)) {
     console.log(`address: ${a} time: ${t}`);
-    if (t > now - 20000) { // if connection time is within last 20 seconds
+    if (t > now - 20000 && a != req.body) { // if connection time is within last 20 seconds
       // We found the connection
       found = a;
-      delete connections[a]; 
       break;
     }
   }
 
   if (found) {
+    console.log('Transfering');
     await TransferToken(found, req.body)
   } else {
+    console.log('Adding');
     connections[req.body] = now;
   }
   res.status(200).send("success");
